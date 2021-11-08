@@ -33,7 +33,7 @@ namespace BadNews.Controllers
                 ContentHtml = model.ContentHtml,
             });
 
-            return RedirectToAction("FullArticle", "News", new { id });
+            return RedirectToAction("FullArticle", "News", new { id = id });
         }
     }
 }
