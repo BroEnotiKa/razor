@@ -15,7 +15,23 @@ namespace BadNews.Elevation
     
         public async Task InvokeAsync(HttpContext context)
         {
-            throw new NotImplementedException();
+            if (context.Request.Path == "/elevation")
+            {
+                Elevate(context.Response, context.Request.Query.ContainsKey("up"));
+                context.Response.Redirect("/");
+            }
+            else
+            {
+                await next(context);
+            }
+        }
+
+        private static void Elevate(HttpResponse response, bool up)
+        {
+            if (up)
+                response.Cookies.Append(ElevationConstants.CookieName, ElevationConstants.CookieValue);
+            else
+                response.Cookies.Delete(ElevationConstants.CookieName);
         }
     }
 }
