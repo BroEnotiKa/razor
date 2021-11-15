@@ -38,6 +38,11 @@ namespace BadNews
             services.AddSingleton<IWeatherForecastRepository, WeatherForecastRepository>();
 
             services.Configure<OpenWeatherOptions>(configuration.GetSection("OpenWeather"));
+            
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+            });
         }
 
         // В этом методе конфигурируется последовательность обработки HTTP-запроса
@@ -49,6 +54,9 @@ namespace BadNews
                 app.UseExceptionHandler("/Errors/Exception");
 
             app.UseHttpsRedirection();
+            
+            app.UseResponseCompression();
+
             app.UseStaticFiles();
             
             app.UseSerilogRequestLogging();
