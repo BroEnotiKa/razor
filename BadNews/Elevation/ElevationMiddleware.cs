@@ -29,7 +29,13 @@ namespace BadNews.Elevation
         private static void Elevate(HttpResponse response, bool up)
         {
             if (up)
-                response.Cookies.Append(ElevationConstants.CookieName, ElevationConstants.CookieValue);
+            {
+                response.Cookies.Append(ElevationConstants.CookieName, ElevationConstants.CookieValue,
+                    new CookieOptions
+                    {
+                        HttpOnly = true
+                    });
+            }
             else
                 response.Cookies.Delete(ElevationConstants.CookieName);
         }
